@@ -1,0 +1,4 @@
+**/node_modules/
+**/.npm-cache/
+backend/data/store.json
+backend/data/store.json.tmp

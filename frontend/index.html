@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#f4f7eb">
+    <title>HumusIQ — Simple farm readiness</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="nav"><a class="brand" href="#home"><span class="logo">✳</span>HumusIQ</a><div class="navlinks"><a href="#home">Home</a><a href="#about">About</a><a href="#how">How It Works</a><a href="#carbon">Carbon Credit Guide</a><button id="langToggle" class="secondary navlang">हिन्दी</button><button id="loginButton" class="secondary">Login</button><button id="signupButton" class="primary">Signup</button><button id="accountButton" class="primary navaccount" style="display:none">My account</button><button id="logoutButton" class="secondary navlogout" style="display:none">Log out</button></div></nav>
+    <section class="authscreen" id="authScreen" aria-modal="true" role="dialog" aria-label="Account access">
+        <div class="authframe">
+            <div class="authart"><img src="farmer-hero.png" alt="Farmer Raju">
+                <div class="authartcopy"><span class="eyebrow">HumusIQ · Farmer readiness</span>
+                    <h2>Your farm, your progress.</h2>
+                    <p>Sign in to save your farm details and readiness plan on this device.</p>
+                </div>
+            </div>
+            <div class="authbody"><button class="secondary authlang" id="authLangToggle">हिन्दी</button><button
+                    class="authclose" id="authClose" aria-label="Close">×</button>
+                <div class="brand authbrand"><span class="logo">✳</span>HumusIQ</div>
+                <h1 id="authTitle">Welcome back</h1>
+                <p class="authsub" id="authSubtitle">Sign in to continue to your farmer dashboard.</p><button
+                    class="secondary authlisten" id="authListen">🔊 Listen to this page</button>
+                <div class="authmodes"><button class="authmode active" data-mode="login">User login</button><button
+                        class="authmode" data-mode="signup">Create account</button><button class="authmode"
+                        data-mode="admin">Admin login</button></div>
+                <form id="userLoginForm" class="authform"><label> Email address<input name="email" type="email"
+                            autocomplete="username" placeholder="you@example.com" required></label><label>Password<input
+                            name="password" type="password" autocomplete="current-password" placeholder="Your password"
+                            required></label><button class="primary authsubmit" type="submit">Sign in</button></form>
+                <form id="signupForm" class="authform" hidden><label>Farmer name<input name="name" autocomplete="name"
+                            placeholder="Your full name" required></label><label>Email address<input name="email"
+                            type="email" autocomplete="email" placeholder="you@example.com"
+                            required></label><label>Create password<input name="password" type="password"
+                            autocomplete="new-password" minlength="6" placeholder="At least 6 characters"
+                            required></label><button class="primary authsubmit" type="submit">Create my account</button>
+                </form>
+                <form id="adminLoginForm" class="authform" hidden><label>Admin email<input name="email" type="email"
+                            autocomplete="username" placeholder="admin@humusiq.farm" required></label><label>Admin password<input name="password" type="password" autocomplete="current-password"
+                            placeholder="Demo password" required></label><button class="primary authsubmit"
+                        type="submit">Open admin dashboard</button>
+                    <p class="democred"><b>Demo admin:</b> admin@humusiq.farm<br><b>Password:</b> farmadmin123</p>
+                </form>
+                <form id="verifierLoginForm" class="authform" hidden><label>Verifier email<input name="email" type="email" autocomplete="username" placeholder="verifier@humusiq.farm" required></label><label>Verifier password<input name="password" type="password" autocomplete="current-password" placeholder="Demo password" required></label><button class="primary authsubmit" type="submit">Open verifier dashboard</button><p class="democred"><b>Demo verifier:</b> verifier@humusiq.farm<br><b>Password:</b> review123</p></form>
+                <div id="authFeedback" class="authfeedback" aria-live="polite"></div>
+                <p class="localnote">Prototype only. Farmer sign-in is local to this browser; admin summaries are stored by the local server. This is not production authentication.</p>
+            </div>
+        </div>
+    </section>
+    <section class="adminscreen" id="adminScreen" aria-label="Admin dashboard">
+        <header class="adminbar"><div class="brand"><span class="logo">✳</span>HumusIQ <span class="admintag">Admin</span></div><div><span class="api-status" id="adminApiStatus">API connecting…</span><button class="secondary" id="adminLangToggle">हिन्दी</button><button class="secondary" id="adminBack">View website</button><button class="primary" id="adminLogout">Log out</button></div></header>
+        <div class="admin-layout"><aside class="admin-sidebar"><div class="admin-side-title">WORKSPACE</div><button class="admin-nav active" data-admin-page="dashboard">◫ <span>Dashboard</span></button><button class="admin-nav" data-admin-page="farmers">♙ <span>Farmers</span></button><button class="admin-nav" data-admin-page="farms">⌂ <span>Farms</span></button><button class="admin-nav" data-admin-page="assessments">▤ <span>Assessments</span></button><button class="admin-nav" data-admin-page="predictions">✳ <span>AI Predictions</span></button><button class="admin-nav" data-admin-page="documents">▧ <span>Documents</span></button><button class="admin-nav" data-admin-page="verification">✓ <span>Verification</span></button><button class="admin-nav" data-admin-page="model-performance">◉ <span>Model Performance</span></button><button class="admin-nav" data-admin-page="reports">▥ <span>Reports</span></button><button class="admin-nav" data-admin-page="settings">⚙ <span>System Settings</span></button><div class="admin-side-foot">HumusIQ admin · local prototype API</div></aside><main class="adminmain admin-workspace"><div class="adminheading"><div><span class="eyebrow"><i class="dot"></i> Administration</span><h1 id="adminPageTitle">Dashboard</h1><p id="adminPageSubtitle">Farmer readiness and platform activity.</p></div><button class="secondary" id="adminRefresh">Refresh data</button></div><div id="adminContent"><div class="admin-loading">Connecting to the HumusIQ API…</div></div><button id="exportCsv" hidden></button><p class="localnote">Prototype records are stored on this server in outputs/humusiq-code/data/store.json.</p></main></div>
+    </section>
+    <section class="adminscreen" id="verifierScreen" aria-label="Verifier dashboard"><header class="adminbar"><div class="brand"><span class="logo">✳</span>HumusIQ <span class="admintag">Verifier</span></div><div><button class="secondary" id="verifierLang">हिन्दी</button><button class="secondary" id="verifierBack">View website</button><button class="primary" id="verifierLogout">Log out</button></div></header><main class="adminmain"><div class="adminheading"><div><span class="eyebrow"><i class="dot"></i> Verification queue</span><h1>Farmer readiness reviews</h1><p>Review saved assessment information and request missing evidence.</p></div></div><div class="adminstats"><article class="adminstat"><span>Submissions</span><strong id="verifierTotal">0</strong></article><article class="adminstat"><span>Awaiting review</span><strong id="verifierPending">0</strong></article><article class="adminstat"><span>Approved</span><strong id="verifierApproved">0</strong></article><article class="adminstat"><span>More information requested</span><strong id="verifierNeedsInfo">0</strong></article></div><section class="admincard"><div class="tablewrap"><table><thead><tr><th>Farmer</th><th>Location</th><th>Farm area</th><th>Readiness</th><th>Review status</th><th>Actions</th></tr></thead><tbody id="verifierRows"></tbody></table></div><p id="verifierEmpty" class="adminempty" hidden>No farmer assessments are saved in this browser yet.</p></section><p class="localnote">Demo verifier view. Records are stored locally in this browser and are not shared across devices.</p></main></section>
+    <main>
+        <section class="hero" id="home">
+            <div><span class="eyebrow"><i class="dot"></i> Farm readiness, made simple</span>
+                <h1>Know your farm. <em>Grow with confidence.</em></h1>
+                <p>Check your practices, records, land, and water. Get a clear score and simple next steps.</p>
+                <div class="actions"><button class="primary" id="heroAccess" onclick="openAuth('login')">Login / create
+                        account <span aria-hidden="true">→</span></button><button class="secondary"
+                        onclick="document.querySelector('#how').scrollIntoView({behavior:'smooth'})">See how it
+                        works</button></div>
+                <div class="trust"><span>🌱</span><span><b>Free, private, and made for farmers.</b> No paperwork to
+                        start.</span></div>
+            </div>
+            <div class="scene" aria-label="Animated portrait of an Indian farmer holding a sheaf of crops"><img
+                    class="heroPhoto" src="farmer-hero.png"
+                    alt="Friendly Indian farmer in an orange turban holding a harvest">
+                <div class="badge one"><span class="badge-icon">🌾</span>Farmer readiness<strong>One step at a
+                        time</strong></div>
+                <div class="badge two"><span class="badge-icon">📋</span>Your farm plan<strong id="heroScore">Let’s get
+                        started →</strong></div>
+            </div>
+        </section>
+        <section class="dashboard" id="dashboard">
+            <div class="dashwrap">
+                <div class="dashhead">
+                    <div><span class="eyebrow"><i class="dot"></i> Your farm, your progress</span>
+                        <h2>Farmer dashboard</h2>
+                        <p>A friendly home for your readiness, farm practices, and next steps.</p>
+                    </div><button class="secondary" onclick="openModal()">Update my farm details</button>
+                </div>
+                <div class="farmer-routebar"><div class="route-group"><span>Farm workspace</span><button class="tab active" data-page="overview">Dashboard</button><button class="tab" data-page="profile">My Profile</button><button class="tab" data-page="farms">My Farms</button><button class="route-action" id="newAssessmentNav">New Assessment</button><div class="route-subgroup"><button class="route-subitem" data-assessment-step="1">Land Information</button><button class="route-subitem" data-assessment-step="2">Crop History</button><button class="route-subitem" data-assessment-step="3">Farming Practices</button><button class="route-subitem" data-assessment-step="4">Input Usage</button><button class="route-subitem" data-assessment-step="5">Irrigation</button><button class="route-subitem" data-assessment-step="6">Soil Management</button><button class="route-subitem" data-assessment-step="7">Documents</button></div></div><div class="route-group"><span>Assessment</span><button class="tab" data-page="assessment-result">Assessment Result</button><button class="tab" data-page="readiness-score">Readiness Score</button><button class="tab" data-page="gap-analysis">Gap Analysis</button><button class="tab" data-page="actions">Recommended Actions</button><button class="tab" data-page="records">Documents</button><button class="tab" data-page="reports">Reports</button></div><div class="route-group"><span>Tools</span><button class="tab" data-page="practices">Practices</button><button class="tab" data-page="plan">Action Plan</button><button class="tab" data-page="crop-ai">AI Crop Analysis</button><button class="tab" data-page="settings">Settings</button></div></div>
+                <div class="dashpage active" id="page-overview">
+                    <div class="dashgrid">
+                        <div>
+                            <div class="card welcome">
+                                <div>
+                                    <h3>Good day, farmer! 🌱</h3>
+                                    <p>Your farm journey starts with the knowledge you already have.</p><button
+                                        class="primary checkReadinessBtn" onclick="openModal()">Check my readiness
+                                        →</button>
+                                </div>
+                                <div class="mini-farmer"><img src="farmer-hero.png" alt="Farmer Raju in the fields"></div>
+                            </div>
+                            <div class="card" style="margin-top:14px">
+                                <h3>Your readiness snapshot</h3>
+                                <p>A starting estimate based on your farm practices and records.</p>
+                                <div class="meter"><span id="dashMeter"></span></div>
+                                <p id="dashReadiness">Not assessed yet · Take the quick farm check to begin.</p>
+                                <div id="dashboardBreakdown"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>What happens next?</h3>
+                            <div class="activity"><span class="badge-icon">🌱</span>
+                                <div>Tell us about your practices<small>Start with your crops, soil, and water</small>
+                                </div>
+                            </div>
+                            <div class="activity"><span class="badge-icon">📒</span>
+                                <div>Gather what you already have<small>Receipts, notes, and land documents</small>
+                                </div>
+                            </div>
+                            <div class="activity"><span class="badge-icon">🤝</span>
+                                <div>Talk to a local program advisor<small>Confirm what is accepted near you</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metrics">
+                        <div class="metric"><span>Readiness estimate</span><strong id="metricScore">—</strong></div>
+                        <div class="metric"><span>Farm practices shared</span><strong id="metricPractices">0</strong>
+                        </div>
+                        <div class="metric"><span>Records to gather</span><strong>3 types</strong></div>
+                    </div>
+                </div>
+                <div class="dashpage" id="page-practices">
+                    <div class="card">
+                        <h3>Practices that can support soil and climate goals</h3>
+                        <p>Choose practices you already use. These are helpful examples; local programs set their own
+                            rules.</p>
+                        <div class="roadmap">
+                            <div class="road"><span class="stepnum">🌿</span>
+                                <div><b>Cover crops and crop rotation</b>
+                                    <p>Help protect soil between growing seasons. Keep a note of the fields and seasons.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="road"><span class="stepnum">🪱</span>
+                                <div><b>Compost and reduced tilling</b>
+                                    <p>Build soil health and reduce disturbance. Photos or field notes can help document
+                                        changes.</p>
+                                </div>
+                            </div>
+                            <div class="road"><span class="stepnum">💧</span>
+                                <div><b>Efficient water use</b>
+                                    <p>Record irrigation dates and methods, especially if you use drip or other
+                                        efficient systems.</p>
+                                </div>
+                            </div>
+                            <div class="road"><span class="stepnum">🧾</span>
+                                <div><b>Careful input management</b>
+                                    <p>Keep fertiliser and fuel receipts, and jot down when you apply inputs.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashpage" id="page-records" role="tabpanel">
+                    <div class="card">
+                        <h3>Farm records checklist</h3>
+                        <p>You can start with a notebook or phone photos. Gather only what is available to you.</p>
+                        <div class="recordrow"><span>Land ownership or lease papers</span><span class="tag">Helpful to
+                                gather</span></div>
+                        <div class="recordrow"><span>Crop and field activity notes</span><span class="tag">Helpful to
+                                gather</span></div>
+                        <div class="recordrow"><span>Seed, fertiliser, and fuel receipts</span><span class="tag">Helpful
+                                to gather</span></div>
+                        <div class="recordrow"><span>Photos of your fields over time</span><span class="tag">Good extra
+                                evidence</span></div>
+                        <p style="margin-top:14px">Tip: Take a photo of paper records so you have a backup.</p>
+                    </div>
+                </div>
+                <div class="dashpage" id="page-plan">
+                    <div class="card">
+                        <h3>Your simple action plan</h3>
+                        <p>Small, practical steps. You do not need to do everything today.</p>
+                        <div class="roadmap" style="margin-top:16px">
+                            <div class="road"><span class="stepnum">1</span>
+                                <div><b>Write down what you grow</b>
+                                    <p>Note the crop, field, and season in a notebook or phone.</p>
+                                </div>
+                            </div>
+                            <div class="road"><span class="stepnum">2</span>
+                                <div><b>Collect land and farm documents</b>
+                                    <p>Gather any lease, ownership paper, receipts, or existing records.</p>
+                                </div>
+                            </div>
+                            <div class="road"><span class="stepnum">3</span>
+                                <div><b>Ask a local advisor about eligibility</b>
+                                    <p>Programs vary by region. Ask which practices and evidence they accept.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="dashboardActions"></div>
+                    </div>
+                <div class="dashpage" id="page-crop-ai">
+                    <div class="crop-intro">
+                        <div><span class="eyebrow"><i class="dot"></i> HumusIQ AI</span><h3>Crop suitability analysis</h3><p>Enter your soil and climate readings to see a demo crop prediction and practical next steps.</p></div>
+                        <span class="demo-chip">Mock AI · Demo response</span>
+                    </div>
+                    <div class="crop-layout">
+                        <form class="card crop-form" id="cropAnalysisForm">
+                            <div class="crop-cardhead"><div><span class="crop-step">01</span><h3>Farmer data input</h3></div><span class="required-note">All fields required</span></div>
+                            <p>Use recent soil-test results and local weather information where available.</p>
+                            <div class="crop-input-grid">
+                                <label>Nitrogen (N)<span class="input-unit">kg/ha</span><input name="nitrogen" type="number" min="0" max="2000" step="any" value="40" required></label>
+                                <label>Phosphorus (P)<span class="input-unit">kg/ha</span><input name="phosphorus" type="number" min="0" max="2000" step="any" value="20" required></label>
+                                <label>Potassium (K)<span class="input-unit">kg/ha</span><input name="potassium" type="number" min="0" max="2000" step="any" value="70" required></label>
+                                <label>Soil pH<span class="input-unit">0–14</span><input name="ph" type="number" min="0" max="14" step="0.1" value="7.8" required></label>
+                                <label>Temperature<span class="input-unit">°C</span><input name="temperature" type="number" min="-10" max="60" step="any" value="32" required></label>
+                                <label>Rainfall<span class="input-unit">mm</span><input name="rainfall" type="number" min="0" max="2000" step="any" value="60" required></label>
+                            </div>
+                            <p class="crop-validation" id="cropValidation" role="alert"></p>
+                            <button class="primary analyze-button" id="analyzeCrop" type="submit">Analyze with AI <span aria-hidden="true">→</span></button>
+                            <p class="crop-disclaimer">Prediction is informational, not a guaranteed harvest or a fertilizer prescription.</p>
+                        </form>
+                        <div class="crop-output">
+                            <div class="card ai-processing" id="aiProcessing" hidden aria-live="polite">
+                                <div class="processing-orbit"><span>✳</span></div><div><span class="eyebrow">HumusIQ AI</span><h3>Analyzing farm data…</h3><p>Combining soil and climate readings for a useful starting point.</p></div>
+                                <ul><li>Soil parameters analyzed</li><li>Climate parameters analyzed</li><li>Crop suitability evaluated</li><li>Recommendation generated</li></ul>
+                            </div>
+                            <div class="card crop-empty" id="cropEmpty"><div class="empty-icon">✳</div><h3>Your analysis will appear here</h3><p>Submit the farm readings to view the crop prediction, confidence, soil and climate signals, and suggested next steps.</p><div class="empty-flow"><span>Farm data</span><b>→</b><span>AI insights</span><b>→</b><span>Next steps</span></div></div>
+                            <div class="crop-results" id="cropResults" hidden aria-live="polite"></div>
+                            <div class="card crop-error" id="cropError" role="alert" hidden></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashpage" id="page-profile"><div class="card route-card"><div class="route-heading"><div><span class="eyebrow">Farmer account</span><h3>My Profile</h3><p>Your personal and farm contact details.</p></div><button class="secondary" onclick="openModal()">Edit profile details</button></div><div class="profile-summary" id="profileSummary"></div></div></div>
+                <div class="dashpage" id="page-farms"><div class="card route-card"><div class="route-heading"><div><span class="eyebrow">Farm workspace</span><h3>My Farms</h3><p>Land location, area, type, crops, and boundary.</p></div><button class="primary" onclick="openModal()">Add or update farm</button></div><div id="farmSummary" class="farm-summary-grid"></div></div></div>
+                <div class="dashpage" id="page-assessment-result"><div class="card route-card"><div class="section-title"><span class="crop-step">01</span><div><h3>Assessment Result</h3><p>Your latest saved readiness assessment.</p></div></div><div id="assessmentResultSummary"></div></div></div>
+                <div class="dashpage" id="page-readiness-score"><div class="card route-card"><div class="section-title"><span class="crop-step">02</span><div><h3>Readiness Score</h3><p>Score and category breakdown for your farm.</p></div></div><div id="readinessScoreDetail"></div></div></div>
+                <div class="dashpage" id="page-gap-analysis"><div class="card route-card"><div class="section-title"><span class="crop-step">03</span><div><h3>Gap Analysis</h3><p>Missing details and evidence to gather.</p></div></div><div id="gapAnalysisList"></div></div></div>
+                <div class="dashpage" id="page-actions"><div class="card route-card"><div class="section-title"><span class="crop-step">04</span><div><h3>Recommended Actions</h3><p>Practical next steps from your readiness review.</p></div></div><div id="recommendedActionsList"></div></div></div>
+                <div class="dashpage" id="page-reports"><div class="card route-card"><div class="section-title"><span class="crop-step">05</span><div><h3>Reports</h3><p>Print or share your latest readiness report.</p></div></div><div id="reportSummary"></div><div class="report-actions"><button class="primary" id="printFarmerReport">Download / print PDF</button><button class="secondary" id="shareFarmerReport">Share report</button></div></div></div>
+                <div class="dashpage" id="page-settings"><div class="card route-card"><div class="section-title"><span class="crop-step">⚙</span><div><h3>Settings</h3><p>Language, voice guidance, and account information.</p></div></div><div class="settings-row"><div><b>Language</b><p>Choose English or Hindi for the interface and voice guidance.</p></div><button class="secondary" id="settingsLanguage">हिन्दी</button></div><div class="settings-row"><div><b>Voice assistance</b><p>Listen to the current dashboard section.</p></div><button class="secondary" id="settingsListen">🔊 Listen</button></div><div class="settings-row"><div><b>Account</b><p id="settingsAccount">Signed in on this browser.</p></div><button class="secondary" id="settingsLogout">Log out</button></div><p class="localnote">Prototype data stays in this browser. Connect a backend before using this with real farmer records.</p></div></div>
+                </div>
+            </div>
+        </section>
+        <section class="below" id="how">
+            <div class="below-inner">
+                <div class="below-head">
+                    <div>
+                        <h2>Good for your farm. Ready for the future.</h2>
+                        <p>A clear starting point, with no guesswork.</p>
+                    </div>
+                </div>
+                <div class="steps">
+                    <article class="step"><span class="stepnum">1</span>
+                        <h3>Tell us about your farm</h3>
+                        <p>Answer a few easy questions about your crops, soil, water, and records.</p>
+                    </article>
+                    <article class="step"><span class="stepnum">2</span>
+                        <h3>See where you stand</h3>
+                        <p>Get a simple readiness estimate and understand what you’re already doing well.</p>
+                    </article>
+                    <article class="step"><span class="stepnum">3</span>
+                        <h3>Get your next steps</h3>
+                        <p>See the documents to gather and practical changes that may help your farm qualify.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="below" id="about"><div class="below-inner"><div class="below-head"><div><span class="eyebrow"><i class="dot"></i> Benefits</span><h2>Clear steps for a better prepared farm.</h2><p>Understand what you already do well and what information may still be needed.</p></div></div><div class="steps"><article class="step"><span class="stepnum">✓</span><h3>Know your readiness</h3><p>See a simple estimate based on farm practices, land, soil, irrigation, inputs, and records.</p></article><article class="step"><span class="stepnum">⌕</span><h3>Find missing information</h3><p>Get a clear list of records or details to gather before speaking with a program.</p></article><article class="step"><span class="stepnum">→</span><h3>Choose useful next steps</h3><p>Plan practical improvements and confirm requirements with local agricultural experts.</p></article></div></div></section>
+        <section class="carbon-about" id="carbon"><div class="carbon-inner"><span class="eyebrow"><i class="dot"></i> About carbon credits</span><h2>What is a carbon-credit program?</h2><p>Some programs may pay farmers for verified practices that reduce emissions or store carbon. Each program has its own rules, evidence requirements, and payment terms. HumusIQ helps you assess readiness; it does not calculate, issue, or sell credits and cannot guarantee eligibility or income.</p></div></section>
+    </main>
+    <footer class="footer">HumusIQ · Readiness assessment only. This prototype does not calculate or sell carbon
+        credits.</footer>
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="title">
+        <div class="panel">
+            <div class="paneltop">
+                <div>
+                    <h2 id="title">Farm readiness check</h2>
+                    <p>A few quick questions. Your answers stay on this device.</p>
+                </div>
+                <div class="modaltools"><button class="secondary" id="formLangToggle">हिन्दी</button><button
+                        class="close" id="close" aria-label="Close">×</button></div>
+            </div>
+            <div class="progress"><span id="progress"></span></div>
+            <p id="formTip" class="hint">Tip: Tap Listen to hear this question and its choices.</p>
+            <div style="margin:-7px 0 14px"><button class="secondary" id="formListen" style="padding:9px 13px">🔊 Listen
+                    to this question</button></div>
+            <div id="content"></div>
+        </div>
+    </div>
+    <div class="toast" id="toast"></div><section id="printReport" hidden></section>
+    <aside class="voicebar" aria-label="Farmer voice guide">
+        <div>
+            <div class="voicebubble" id="voicebubble" aria-live="polite">Namaste! I’m Raju. Tap Listen to start your
+                spoken farm check.</div>
+            <div class="voicecontrols"><button class="voicebtn" id="listenBtn">🔊 Listen</button><button
+                    class="voicebtn mic" id="micBtn" title="Speak a command">🎙️ Speak</button></div>
+        </div>
+        <div class="guide" role="button" tabindex="0" aria-label="Farmer Raju: tap to start the spoken readiness check">
+            <img src="farmer-hero.png" alt="" aria-hidden="true"></div>
+    </aside>
+    <script src="crop-api.js"></script>
+    <script src="app.js" defer></script>
+</body>
+
+</html>
